@@ -1,1 +1,0 @@
-{"dependencies":[["vagrant-lxc",["= 1.4.3"]]],"checksum":"9a88226795cf212618969b24e8643f82b28a3ec752ddbb5ad2d1281b9b7293f9","vagrant_version":"2.2.18"}
