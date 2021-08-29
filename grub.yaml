@@ -15,5 +15,5 @@
 
 
     - name: update grub
-      command: grub2-mkconfig    
+      command: grub2-mkconfig -o /boot/grub2/grub.cfg
 
