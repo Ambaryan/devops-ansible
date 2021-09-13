@@ -1,2 +1,14 @@
 ---
 # handlers file for ftp
+- name: vsftpd restEnable
+  service:
+    name: vsftpd
+    state: restarted      
+    enabled: yes
+
+
+- name: firewalld restart
+  service: 
+    name: firewalld
+    state: restarted
+    enabled: yes     

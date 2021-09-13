@@ -1,2 +1,51 @@
 ---
 # tasks file for ftp
+
+- name: install vsftpd
+  yum:
+    name: vsftpd
+    state: latest
+  notify: 
+    - vsftpd restEnable
+
+- name: config file
+  template: 
+    dest: "{{ ftp_config_dest }}/{{ ftp_config }}"
+    src: "{{ ftp_config }}.j2"
+    owner: root
+    group: root
+    mode: 0600
+  notify:  
+    - vsftpd restEnable
+
+- name: permission to dir
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "0755"
+  notify: vsftpd restEnable
+  loop:
+    - { path: '/var/ftp/pub', name: 'nobody' }
+    - { path: '/var/ftp/pub/upload', name: 'ftp' }    
+
+
+- name: chcon
+  command: chcon -t public_content_rw_t /var/ftp/pub/upload 
+
+  
+- name: selinux
+  command: setsebool -P ftpd_anon_write on
+
+
+- name: ftp's ports
+  firewalld:
+    port: "{{ item.port }}"
+    permanent: "{{ item.permanent }}"
+    state: enabled
+  with_items:
+    - { port: "{{ ftp1_port }}", permanent: "{{ rule_permanent }}" }
+    - { port: "{{ ftp2_port }}", permanent: "{{ rule_permanent }}" }   
+  notify: firewalld restart     
+

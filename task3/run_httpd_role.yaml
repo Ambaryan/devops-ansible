@@ -1,0 +1,11 @@
+---
+- hosts: azure
+#- hosts: nodes
+  become: yes
+  become_user: root
+  become_method: sudo 
+  remote_user: ansible
+
+  roles:
+    #- apache
+    - ftp
