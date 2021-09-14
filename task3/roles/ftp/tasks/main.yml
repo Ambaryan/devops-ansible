@@ -33,6 +33,7 @@
 
 - name: chcon
   command: chcon -t public_content_rw_t /var/ftp/pub/upload 
+           
 
   
 - name: selinux
